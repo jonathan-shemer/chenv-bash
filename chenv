@@ -7,6 +7,5 @@ then
 else
   mv .env /tmp/chenv-previous;
   file="${1//\.env\./}"
-  echo "$file"
   cp ".env.$file" .env;
 fi;
