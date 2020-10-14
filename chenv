@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+if [ "$1" = "-r" ] || [ "$1" = "--revert" ]
+then
+  mv .env /tmp/chenv-current;
+  mv /tmp/chenv-previous .env;
+  mv /tmp/chenv-current /tmp/chenv-previous;
+else
+  mv .env /tmp/chenv-previous;
+  file="${1//\.env\./}"
+  echo "$file"
+  cp ".env.$file" .env;
+fi;
