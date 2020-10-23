@@ -1,3 +1,26 @@
 #!/usr/bin/env bash
+if [ "$*" == "" ]; then
+    echo "Please provide an env suffix to change to, or use -h for help.";
+    exit 1;
+fi
+
+if [ $1 = "-h" ]; then
+    less "$HOME/.chenv/src/README.md";
+    exit 0;
+fi
+
+if [ $1 = "heroku" ]; then
+    heroku config -s -a "$2" > .env.heroku;
+fi
+
 file=".env.${1//\.env\./}";
-ln -fs "$file" .env;
+if test -f "./$file"; then
+    ln -fs "$file" .env;
+elif test -f "$HOME/.chenv/$file"; then
+    ln -fs "$HOME/.chenv/$file" .env;
+else
+    echo "Environemnt file [$1] was not found";
+    exit 2;
+fi
+
+cat .env;
