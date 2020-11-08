@@ -10,10 +10,12 @@ if [ $1 = "-h" ]; then
 fi
 
 if [ $1 = "heroku" ]; then
-    heroku config -s -a "$2" > .env.heroku;
+    file=".env.$2";
+    heroku config -s -a "$2" > $file;
+else
+    file=".env.${1//\.env\./}";
 fi
 
-file=".env.${1//\.env\./}";
 if test -f "./$file"; then
     ln -fs "$file" .env;
 elif test -f "$HOME/.chenv/$file"; then
